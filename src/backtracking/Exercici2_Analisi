@@ -1,0 +1,14 @@
+*** ANÀLISI DEL PROBLEMA ***
+// TODO: Exercici 2: respondre les preguntes següents:
+2.a.- Per què l’esquema de backtracking és aplicable per a resoldre aquest enunciat?
+Determina quines decisions ha de prendre el backtracking. Indica molt clarament quina pregunta ets fas en cada nivell de l’arbre i contesta les següents preguntes tenint en compte la teva resposta que m’acabes de donar.
+Quin és el domini de la teva pregunta?
+Serà sempre el mateix?
+Quan serà acceptable una decisió?
+
+2.b.- Quin és el criteri per determinar si un conjunt de decisions és o no completable?
+Quin és el criteri per determinar si un conjunt de decisions és o no solució?
+Dibuixa l’espai de cerca del problema, és a dir, l’arbre que generarà el teu backtracking, especificant quina serà l’alçada i l’amplada, indicant si són valors exactes o valors màxims.
+Amb el teu plantejament cal usar la tècnica del marcatge?
+
+2.c.- Indica els atributs que afegiràs a la classe Solucio per trobar la solució demanada, l’objectiu és que el mètode que implementa el backtracking tingui el menor número possible de paràmetres i que la implementació sigui el màxim d’eficient possible. Per cada atribut afegit indica el seu ús.
