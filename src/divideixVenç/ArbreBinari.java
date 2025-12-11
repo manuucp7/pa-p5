@@ -50,7 +50,25 @@ class ArbreBinari <E extends Comparable<E>> {
         // Cal aplicar la tècnica del Divideix i Venç
         // Llança una excepció si l’arbre és buit
         // Es valorarà l’eficiència i l’ús correcte de la recursivitat
-        return null;
+
+        // Si l'arrel es buida retorna l'excepció, sino retorna el mètode recursiu.
+        if (arrel == null) {
+            throw new Exception("L'arbre és buit");
+        }
+        return MaxValorRecursiuArbreBinari(arrel);
+    }
+
+    private E MaxValorRecursiuArbreBinari(NodeA node) {
+        // Si el node es buit retorna null.
+        if (node == null) {
+            return null;
+        }
+
+        // Troba el valor màxim a l'esquerra i a la dreta
+        E maximEsquerra = MaxValorRecursiuArbreBinari(node.esquerra);
+        E maximDreta = MaxValorRecursiuArbreBinari(node.dreta);
+
+        
     }
 
     @Override
