@@ -1,13 +1,14 @@
 package backtracking;
 
-// Aquesta classe es pot MODIFICAR i afeir ATRIBUTS
 // Aquesta classe representa una cel·la del laberint
 public class Node {
     String nom;             // Nom del node (guardem la posició, simplement per observar les solucions)
-    int cost;              // 0: lliure, 1: trampa, 2: enemic
-    boolean sortida;       // Indica si aquest node és la sortida del laberint
-    Node amunt, avall, esquerra, dreta;  // Connexions amb nodes veïns
+    int cost;               // Cost associat al node: 0 (lliure), 1 (trampa), 2 (enemic)
+    boolean sortida;        // Indica si aquest node és la sortida del laberint
+    Node amunt, avall, esquerra, dreta; // Connexions amb nodes veïns
+    boolean visitat = false; // Indica si el node ha estat visitat
 
+    // Constructor per inicialitzar un node amb el seu nom, cost i si és sortida
     public Node(String nom, int cost, boolean sortida) {
         this.nom = nom;
         this.cost = cost;
@@ -18,14 +19,15 @@ public class Node {
         this.dreta = null;
     }
 
+    // Retorna una representació en text del node
     @Override
     public String toString() {
         String aux = this.nom + " ";
-        if( sortida ) aux = "Sortida ";
+        if (sortida) aux = "Sortida ";
         switch (cost) {
-            case 0: return aux+"Via lliure";
-            case 1: return aux+"Trampa";
-            case 2: return aux+"Enemic";
+            case 0: return aux + "Via lliure";
+            case 1: return aux + "Trampa";
+            case 2: return aux + "Enemic";
             default: return aux;
         }
     }

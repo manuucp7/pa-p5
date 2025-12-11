@@ -1,116 +1,129 @@
 package backtracking;
 
-/* TODO: Exercici 3: implementació de l'esquema de backtracking
-    - Recorda que és imprescindible respondre les preguntes al fitxer Exercici2_Analisis.txt
-*/
-
 public class SolucioBacktracking {
 
-    // TODO: Exercici 3: afegir atributs necessaris segons l'anàlisi
+    private Node inici; // Node inicial del laberint
+    private Node[] camiActual; // Camí que s’està explorant actualment
+    private Node[] millorCami; // Millor camí trobat fins ara
+    private int k; // Nivell actual en l’arbre de cerca
+    private int millorLongitud; // Longitud del millor camí trobat
+    private int costActual; // Cost acumulat del camí actual
+    private int millorCost; // Cost del millor camí trobat
 
-
+    // Constructor per inicialitzar els atributs i el laberint
     public SolucioBacktracking() {
-        // TODO: Exercici 3: inicialitzar atributs necessaris
-
-        // IMPORTANT: per les primeres proves recomano utilitzar false
-        Node inici = Laberint.getLaberintPresentacio(true);
-
+        this.inici = Laberint.getLaberintPresentacio(false);
+        int max = 1000; // Mida màxima del camí
+        this.camiActual = new Node[max];
+        this.millorCami = new Node[max];
+        this.k = 0;
+        camiActual[0] = inici;
+        this.costActual = inici.cost;
+        this.millorCost = Integer.MAX_VALUE;
+        this.millorLongitud = 0;
     }
-    public static void main(String args[]) {
+
+    // Mètode principal per trobar la millor solució
+    public static void main(String[] args) {
         SolucioBacktracking s = new SolucioBacktracking();
-        // IMPORTANT: per les primeres proves recomano utilitzar esquema una solució
         s.backMillorSolucio(0);
         System.out.println(s);
     }
-    // Recomanació: canvia els noms dels índexs al teu problema:
-    //  - k és alçada de l'arbre
-    //  - i és amplada de l'arbre
 
-
-    /* esquema recursiu que troba una solució
-     * utilitzem una variable booleana (que retornem)
-     * per aturar el recorregut quan haguem trobat una solució
-     */
-    public boolean backUnaSolucio(int k) {
-        boolean trobada = false;
-        int amplada = 0; // TODO: assignar l'amplada correcta de l'arbre
-        // iterem sobre l'amplada de l'arbre
-        for(int i = 0; i < amplada && !trobada; i++) {
-            //mirem si l'element i es pot assignar a k
-            if(this.acceptable(k,i)) {
-                //posem l'element a la solució actual
-                this.anotarASolucio(k,i);
-
-                if(this.esSolucio(k,i)) { // és solució?
-                    return true; // hem trobat una solució
-                } else {
-                    // TODO: if podem podar?
-                    trobada = this.backUnaSolucio(k + 1); //baixem al següent nivell de l'arbre
-                }
-                if(!trobada)
-                    // esborrem l'actual, per després posar-la a una altra
-                    this.desanotarDeSolucio(k,i);
-            }
-        }
-        return trobada;
-    }
-
-    /* Esquema recursiu que busca totes les solucions
-     * no cal utilitzar una variable booleana per aturar perquè busquem totes les solucions
-     * cal guardar una COPIA de la millor solució a una variable
-     */
+    // Cerca la millor solució amb backtracking
     public void backMillorSolucio(int k) {
-        int amplada = 0; // TODO: assignar l'amplada correcta de l'arbre
-        // iterem sobre l'amplada de l'arbre
-        for(int i = 0; i < amplada; i++) {
-            //mirem si l'element i es pot assignar a k
-            if(this.acceptable(k, i)) {
-                //posem l'element a la solució actual
+        int amplada = 4; // Nombre màxim de direccions possibles
+        for (int i = 0; i < amplada; i++) {
+            if (this.acceptable(k, i)) {
                 this.anotarASolucio(k, i);
-
-                if (this.esSolucio(k,i)) { // és solució?
-                    if( this.esMillor())
-                        this.guardarMillorSolucio();
+                if (this.esSolucio(k, i)) {
+                    if (this.esMillor()) this.guardarMillorSolucio();
                 } else {
-                    // TODO: if podem podar?
-                    this.backMillorSolucio(k + 1);//baixem al següent nivell de l'arbre
+                    if (costActual < millorCost) {
+                        this.backMillorSolucio(k + 1);
+                    }
                 }
-                // esborrem l'element actual i fem backtracking
-                this.desanotarDeSolucio(k, i);
+                this.desanotarDeSolucio();
             }
         }
     }
 
+    // Comprova si un node és acceptable
     private boolean acceptable(int k, int i) {
-        // TODO: Exercici 3: implementar la comprovació dels criteris d'acceptabilitat
-        return false;
+        Node actual = camiActual[k];
+        Node seguent = null;
+        if (i == 0) seguent = actual.amunt;
+        else if (i == 1) seguent = actual.avall;
+        else if (i == 2) seguent = actual.esquerra;
+        else if (i == 3) seguent = actual.dreta;
+        return seguent != null && !jaVisitada(seguent);
     }
 
+    // Marca un node com a part del camí actual
     private void anotarASolucio(int k, int i) {
-        // TODO: Exercici 3: assigna l'element i a la solució a la posició k
+        Node actual = camiActual[k];
+        Node seguent = null;
+        if (i == 0) seguent = actual.amunt;
+        else if (i == 1) seguent = actual.avall;
+        else if (i == 2) seguent = actual.esquerra;
+        else if (i == 3) seguent = actual.dreta;
+        this.k++;
+        camiActual[this.k] = seguent;
+        costActual += seguent.cost;
+        seguent.visitat = true;
     }
 
-    private void desanotarDeSolucio(int k, int i) {
-        // TODO: Exercici 3: elimina l'assignació de l'element i a la solució a la posició k
+    // Desmarca un node del camí actual
+    private void desanotarDeSolucio() {
+        Node eliminat = camiActual[this.k];
+        costActual -= eliminat.cost;
+        eliminat.visitat = false;
+        this.k--;
     }
 
+    // Comprova si s’ha arribat a una solució
     private boolean esSolucio(int k, int i) {
-        // TODO: Exercici 3: comprova si s'ha arribat a una solució completa
-        return false;
+        Node actual = camiActual[k];
+        Node seguent = null;
+        if (i == 0) seguent = actual.amunt;
+        else if (i == 1) seguent = actual.avall;
+        else if (i == 2) seguent = actual.esquerra;
+        else if (i == 3) seguent = actual.dreta;
+        return seguent != null && seguent.sortida;
     }
 
+    // Comprova si el camí actual és millor que el millor trobat
     private boolean esMillor() {
-        // TODO: Exercici 3: comprova si la solució actual és millor que la millor solució trobada fins ara
+        return costActual < millorCost;
+    }
+
+    // Guarda el camí actual com el millor camí trobat
+    private void guardarMillorSolucio() {
+        millorCost = costActual;
+        millorLongitud = k;
+        for (int i = 0; i <= k; i++) {
+            millorCami[i] = camiActual[i];
+        }
+    }
+
+    // Comprova si un node ja ha estat visitat
+    private boolean jaVisitada(Node n) {
+        for (int i = 0; i <= k; i++) {
+            if (camiActual[i] == n) return true;
+        }
         return false;
     }
 
-    private void guardarMillorSolucio() {
-        // TODO: Exercici 3: guarda una copia de la solució actual com la millor solució trobada fins ara
-    }
-
+    // Retorna una representació en text del millor camí trobat
+    @Override
     public String toString() {
-        // TODO: Exercici 3: retorna un string amb la representació de la millor solució
-        return "";
+        StringBuilder sb = new StringBuilder();
+        sb.append("Millor cost: ").append(millorCost).append("\n");
+        sb.append("Millor camí:\n");
+        for (int i = 0; i <= millorLongitud; i++) {
+            Node n = millorCami[i];
+            sb.append(n.nom).append(" (cost ").append(n.cost).append(")\n");
+        }
+        return sb.toString();
     }
-
 }
