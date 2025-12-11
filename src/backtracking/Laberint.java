@@ -12,7 +12,7 @@ public class Laberint {
 
     public static Node getLaberintPresentacio(boolean doblesentit) {
         // Creem els nodes del laberint
-        Laberint lab = new Laberint(new Node("n01", 0, false));
+        Laberint lab = new Laberint(new Node("n10", 0, false));
         Node n11 = new Node("n11", 2, false);
         lab.entrada.dreta = n11;
         Node n01 = new Node("n01", 0, false);
