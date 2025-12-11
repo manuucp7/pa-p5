@@ -68,7 +68,17 @@ class ArbreBinari <E extends Comparable<E>> {
         E maximEsquerra = MaxValorRecursiuArbreBinari(node.esquerra);
         E maximDreta = MaxValorRecursiuArbreBinari(node.dreta);
 
-        
+        // Determina el màxim entre el node actual amb el valor màxim esquerra i dreta
+        // Si esquerra o dreta té valor màxim major canvia el maximActual
+        E maximActual = node.info;
+        if (maximEsquerra != null && maximEsquerra.compareTo(maximActual) > 0) {
+            maximActual = maximEsquerra;
+        }
+        if (maximDreta != null && maximDreta.compareTo(maximActual) > 0) {
+            maximActual = maximDreta;
+        }
+
+        return maximActual;
     }
 
     @Override
