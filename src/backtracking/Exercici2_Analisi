@@ -1,14 +1,47 @@
 *** ANÀLISI DEL PROBLEMA ***
 // TODO: Exercici 2: respondre les preguntes següents:
-2.a.- Per què l’esquema de backtracking és aplicable per a resoldre aquest enunciat?
+2.a.-
+Per què l’esquema de backtracking és aplicable per a resoldre aquest enunciat?
+    Porque se ha de verificar todas las combinaciones posibles de caminos que existen para saber el más corto.
+    Haciendo backtracking aparte de cumplir esto, puedes volver atrás (de ahí el nombre) cuando la respuesta
+    no cumple las condiciones y podemos usar el término de "podar" visto en clase para evitar perder tiempo
+    mirando caminos que ya son más largos que el mejor encontrado hasta el momento.
+
 Determina quines decisions ha de prendre el backtracking. Indica molt clarament quina pregunta ets fas en cada nivell de l’arbre i contesta les següents preguntes tenint en compte la teva resposta que m’acabes de donar.
+    Mi pregunta serà si estando desde el nodo actual hacia dónde me muevo?
+
 Quin és el domini de la teva pregunta?
+    El dominio son las 4 direcciones posibles: arriba, abajo, izquierda, derecha.
+
 Serà sempre el mateix?
+    Sí, pero dependiendo de la posición actual y los nodos visitados (celdas)
+
 Quan serà acceptable una decisió?
+    Cuando el nodo al que me quiero mover exista
+    Que no haya sido visitado
+    Que no sea una celda que lleve a un camino más largo que el mejor encontrado hasta el momento.
 
-2.b.- Quin és el criteri per determinar si un conjunt de decisions és o no completable?
+2.b.-
+Quin és el criteri per determinar si un conjunt de decisions és o no completable?
+    Si es posible llegar a una salida desde la posición actual sin repetir nodos y sin superar el mejor coste encontrado (el camino más corto).
+
 Quin és el criteri per determinar si un conjunt de decisions és o no solució?
-Dibuixa l’espai de cerca del problema, és a dir, l’arbre que generarà el teu backtracking, especificant quina serà l’alçada i l’amplada, indicant si són valors exactes o valors màxims.
-Amb el teu plantejament cal usar la tècnica del marcatge?
+    Evidentemente, si llego a la salida.
+    Que el camino sea el más corto posible.
+    Que empiece desde la celda de entrada (la raíz).
 
-2.c.- Indica els atributs que afegiràs a la classe Solucio per trobar la solució demanada, l’objectiu és que el mètode que implementa el backtracking tingui el menor número possible de paràmetres i que la implementació sigui el màxim d’eficient possible. Per cada atribut afegit indica el seu ús.
+Dibuixa l’espai de cerca del problema, és a dir, l’arbre que generarà el teu backtracking, especificant quina serà l’alçada i l’amplada, indicant si són valors exactes o valors màxims.
+    La altura será el número máximo de nodos (celdas) que recorrerá el camino más largo sin repetir posiciones (valor máximo).
+    Anchura: 4 (valor máximo) -> Arriba, abajo, izquierda, derecha.
+
+Amb el teu plantejament cal usar la tècnica del marcatge?
+    Sí, para así evitar visitar nodos ya visitados (las celdas).
+
+2.c.-
+Indica els atributs que afegiràs a la classe Solucio per trobar la solució demanada, l’objectiu és que el mètode que implementa el backtracking tingui el menor número possible de paràmetres i que la implementació sigui el màxim d’eficient possible. Per cada atribut afegit indica el seu ús.
+    int[][] laberinto: Representará mi laberinto con los costes de cada celda. Lo usaré para saber los costes y límites del laberinto.
+    boolean[][] visitado: Aquí marcaré las celdas visitadas. Lo usaré para evitar celdas ya visitadas.
+    int costeActual: Coste del camino actual. Lo usaré para comparar con el camino más corto encontrado.
+    int costeMinimo: Coste mínimo encontrado hasta el momento. Me servirá para podar caminos más largos.
+    List<int[]> caminoActual: Aquí guardaré las coordenadas del camino actual. Lo usaré para guardar el camíno que se está recorriendo.
+    List<int[]> millorCami: Aquí guardaré las coordenadas del mejor camino encontrado. Lo usaré para guardar el camino con la solución más òptima.
